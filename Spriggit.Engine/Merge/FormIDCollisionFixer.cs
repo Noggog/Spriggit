@@ -20,6 +20,7 @@ public class FormIDCollisionFixer
     private readonly FormIDReassigner _reassigner;
     private readonly IEntryPointCache _entryPointCache;
     private readonly GetMetaToUse _getMetaToUse;
+    private readonly SpriggitFileLocator _spriggitFileLocator;
     private readonly GitFolderLocator _gitFolderLocator;
     private readonly FormIDCollisionDetector _detector;
 
@@ -29,6 +30,7 @@ public class FormIDCollisionFixer
         FormIDReassigner reassigner,
         IEntryPointCache entryPointCache,
         GetMetaToUse getMetaToUse,
+        SpriggitFileLocator spriggitFileLocator,
         GitFolderLocator gitFolderLocator,
         FormIDCollisionDetector detector)
     {
@@ -37,6 +39,7 @@ public class FormIDCollisionFixer
         _reassigner = reassigner;
         _entryPointCache = entryPointCache;
         _getMetaToUse = getMetaToUse;
+        _spriggitFileLocator = spriggitFileLocator;
         _gitFolderLocator = gitFolderLocator;
         _detector = detector;
     }
@@ -51,6 +54,8 @@ public class FormIDCollisionFixer
         {
             throw new NullReferenceException($"Could not construct entry point for {meta}");
         }
+
+        var spriggitFile = _spriggitFileLocator.LocateAndParse(spriggitModPath);
         
         var typeStr = $"Mutagen.Bethesda.{meta.Release.ToCategory()}.{meta.Release.ToCategory()}Mod";
         var regis = LoquiRegistration.GetRegisterByFullName(typeStr);
@@ -67,6 +72,7 @@ public class FormIDCollisionFixer
             entryPoint,
             spriggitModPath,
             dataPath,
+            spriggitFile?.KnownMasters ?? Array.Empty<KnownMaster>(),
             meta
         });
         if (obj is Task t)
@@ -79,6 +85,7 @@ public class FormIDCollisionFixer
         IEntryPoint entryPoint,
         DirectoryPath spriggitModPath,
         DirectoryPath? dataPath,
+        KnownMaster[] knownMasters,
         SpriggitModKeyMeta meta)
         where TMod : class, IContextMod<TMod, TModGetter>, TModGetter
         where TModGetter : class, IContextGetterMod<TMod, TModGetter>
@@ -93,6 +100,7 @@ public class FormIDCollisionFixer
             inputPath: spriggitModPath,
             outputPath: origMergedModPath,
             dataPath: dataPath,
+            knownMasters: knownMasters,
             workDropoff: null,
             fileSystem: _fileSystem,
             streamCreator: null,
@@ -181,6 +189,7 @@ public class FormIDCollisionFixer
             inputPath: spriggitModPath,
             outputPath: origMergedModPath,
             dataPath: dataPath,
+            knownMasters: knownMasters,
             workDropoff: null,
             fileSystem: _fileSystem,
             streamCreator: null,
@@ -205,6 +214,7 @@ public class FormIDCollisionFixer
             modPath: origMergedModPath.Path,
             outputDir: spriggitModPath,
             dataPath: dataPath,
+            knownMasters: knownMasters,
             release: meta.Release,
             workDropoff: null,
             fileSystem: _fileSystem,
@@ -236,6 +246,7 @@ public class FormIDCollisionFixer
             inputPath: spriggitModPath,
             outputPath: newMergedModPath,
             dataPath: dataPath,
+            knownMasters: knownMasters,
             workDropoff: null,
             fileSystem: _fileSystem,
             streamCreator: null,

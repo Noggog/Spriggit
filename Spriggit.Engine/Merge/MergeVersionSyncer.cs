@@ -11,6 +11,7 @@ public class MergeVersionSyncer
 {
     private readonly IEntryPointCache _entryPointCache;
     private readonly SpriggitExternalMetaPersister _externalMetaPersister;
+    private readonly SpriggitFileLocator _spriggitFileLocator;
     private readonly GetMetaToUse _getMetaToUse;
     private readonly GitFolderLocator _gitFolderLocator;
     
@@ -18,11 +19,13 @@ public class MergeVersionSyncer
         GetMetaToUse getMetaToUse,
         IEntryPointCache entryPointCache,
         SpriggitExternalMetaPersister externalMetaPersister,
+        SpriggitFileLocator spriggitFileLocator,
         GitFolderLocator gitFolderLocator)
     {
         _getMetaToUse = getMetaToUse;
         _entryPointCache = entryPointCache;
         _externalMetaPersister = externalMetaPersister;
+        _spriggitFileLocator = spriggitFileLocator;
         _gitFolderLocator = gitFolderLocator;
     }
 
@@ -182,11 +185,17 @@ public class MergeVersionSyncer
 
         var modPath = Path.Combine(tmp.Dir.Path, oldExternalMeta.ModKey.FileName);
         
+        var spriggitFile = _spriggitFileLocator.LocateAndParse(spriggitPath);
+
+        var knownMasters = spriggitFile?.KnownMasters ?? [];
+        
         await oldEntryPoint.Deserialize(
             inputPath: spriggitPath, outputPath: modPath, dataPath: dataFolder,
+            knownMasters: knownMasters,
             workDropoff: null, fileSystem: null, streamCreator: null, cancel: CancellationToken.None);
 
         await newEntryPoint.Serialize(modPath, spriggitPath, dataFolder,
+            knownMasters: knownMasters,
             newExternalMeta.Release,
             null, null, null, newExternalMeta.Source, cancel: CancellationToken.None);
     }

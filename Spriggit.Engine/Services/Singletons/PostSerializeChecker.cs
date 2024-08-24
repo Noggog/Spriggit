@@ -7,6 +7,7 @@ using Noggog;
 using Noggog.IO;
 using Noggog.WorkEngine;
 using Serilog;
+using Spriggit.Core;
 
 namespace Spriggit.Engine.Services.Singletons;
 
@@ -34,6 +35,7 @@ public class PostSerializeChecker
         GameRelease release,
         DirectoryPath spriggit,
         DirectoryPath? dataPath,
+        KnownMaster[] knownMasters,
         IEngineEntryPoint entryPt,
         CancellationToken cancel)
     {
@@ -46,6 +48,7 @@ public class PostSerializeChecker
                 inputPath: spriggit,
                 outputPath: outPath,
                 dataPath: dataPath,
+                knownMasters: knownMasters,
                 fileSystem: _fileSystem,
                 workDropoff: _workDropoff,
                 streamCreator: _createStream,

@@ -6,13 +6,13 @@ using Spriggit.Core;
 
 namespace Spriggit.Engine.Services.Singletons;
 
-public class SpriggitMetaLocator
+public class SpriggitFileLocator
 {
     public const string ConfigFileName = ".spriggit";
     private readonly ILogger _logger;
     private readonly IFileSystem _fileSystem;
 
-    public SpriggitMetaLocator(
+    public SpriggitFileLocator(
         ILogger logger,
         IFileSystem fileSystem)
     {
@@ -37,31 +37,35 @@ public class SpriggitMetaLocator
         return null;
     }
     
-    public SpriggitMeta? LocateAndParse(DirectoryPath outputFolder)
+    public SpriggitFile? LocateAndParse(DirectoryPath outputFolder)
     {
         var config = LocateSpriggitConfigFile(outputFolder);
         return Parse(config);
     }
     
-    public SpriggitMeta? Parse(FilePath? path)
+    public SpriggitFile? Parse(FilePath? path)
     {
         if (path == null) return null;
         try
         {
-            var meta = JsonConvert.DeserializeObject<SpriggitMetaSerialize>(_fileSystem.File.ReadAllText(path.Value));
+            var meta = JsonConvert.DeserializeObject<SpriggitFileSerialize>(_fileSystem.File.ReadAllText(path.Value));
             if (meta == null || meta.PackageName.IsNullOrWhitespace() || meta.Release == null)
             {
                 return null;
             }
 
             _logger.Information($"Loaded {ConfigFileName} config with {{Meta}}", meta);
-            return new SpriggitMeta(
-                new SpriggitSource()
-                {
-                    PackageName = meta.PackageName,
-                    Version = meta.Version ?? "",
-                },
-                meta.Release.Value);
+            return new SpriggitFile(
+                new SpriggitMeta(
+                    new SpriggitSource()
+                    {
+                        PackageName = meta.PackageName,
+                        Version = meta.Version ?? "",
+                    },
+                    meta.Release.Value),
+                meta.KnownMasters
+                    .Select(m => new KnownMaster(m.ModKey, m.Style))
+                    .ToArray());
         }
         catch (Exception e)
         {

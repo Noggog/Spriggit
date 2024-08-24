@@ -3,7 +3,6 @@ using Mutagen.Bethesda;
 using Mutagen.Bethesda.Plugins;
 using Mutagen.Bethesda.Plugins.Binary.Parameters;
 using Mutagen.Bethesda.Serialization.Yaml;
-using Mutagen.Bethesda.Serialization.Utility;
 using Mutagen.Bethesda.Oblivion;
 using Noggog;
 using Noggog.IO;

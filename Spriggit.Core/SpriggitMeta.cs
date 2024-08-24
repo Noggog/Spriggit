@@ -3,10 +3,25 @@ using Mutagen.Bethesda.Plugins;
 
 namespace Spriggit.Core;
 
-public record SpriggitMeta(SpriggitSource Source, GameRelease Release);
-    
-public record SpriggitMetaSerialize(string? PackageName, string? Version, GameRelease? Release);
+public record SpriggitFile(
+    SpriggitMeta Meta,
+    KnownMaster[] KnownMasters);
 
+public record KnownMaster(
+    ModKey ModKey, 
+    MasterStyle Style);
+    
+public record SpriggitFileSerialize(
+    string? PackageName, 
+    string? Version, 
+    GameRelease? Release,
+    KnownMaster[] KnownMasters);
+
+public record KnownMasterSerialize(
+    string ModKey, 
+    MasterStyle Style);
+
+public record SpriggitMeta(SpriggitSource Source, GameRelease Release);
 
 public record SpriggitModKeyMeta(SpriggitSource Source, GameRelease Release, ModKey ModKey)
 {

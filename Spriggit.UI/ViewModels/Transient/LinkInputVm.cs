@@ -76,7 +76,7 @@ public class LinkInputVm : ViewModel
         ILogger logger,
         INavigateTo navigateTo,
         WriteSpriggitConfig writeSpriggitConfig,
-        SpriggitMetaLocator locator,
+        SpriggitFileLocator locator,
         LinkSourceCategoryToPackageName linkSourceCategoryToPackageName)
     {
         _writeSpriggitConfig = writeSpriggitConfig;
@@ -145,9 +145,9 @@ public class LinkInputVm : ViewModel
                 }
                 
                 var dialog = new SaveFileDialog();
-                dialog.Filter = $"Spriggit Config file|*{SpriggitMetaLocator.ConfigFileName}";
-                dialog.Title = $"Save a {SpriggitMetaLocator.ConfigFileName} file";
-                dialog.FileName = SpriggitMetaLocator.ConfigFileName;
+                dialog.Filter = $"Spriggit Config file|*{SpriggitFileLocator.ConfigFileName}";
+                dialog.Title = $"Save a {SpriggitFileLocator.ConfigFileName} file";
+                dialog.FileName = SpriggitFileLocator.ConfigFileName;
                 dialog.InitialDirectory = System.IO.Path.GetDirectoryName(GitFolderPicker.TargetPath) ?? "";
                 dialog.ShowDialog();
 
