@@ -4,4 +4,5 @@ public class MainSettings
 {
     public LinkSettings AddNewLinkSettings { get; set; } = new();
     public LinkSettings[] Links { get; set; } = [];
+    public DataFolderSettings DataFolders { get; set; } = new();
 }
