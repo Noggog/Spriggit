@@ -31,6 +31,12 @@
         </RadialGradientBrush.GradientStops>
     </RadialGradientBrush>
     
+    <LinearGradientBrush x:Key="SplitterGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="{StaticResource OrangeYellow}" />
+        <GradientStop Offset="0.15" Color="{StaticResource Orange}" />
+        <GradientStop Offset="0.7" Color="{StaticResource DarkOrange}" />
+    </LinearGradientBrush>
+    
     <Style BasedOn="{StaticResource MahApps.Styles.TabControl}" TargetType="TabControl">
         <Setter Property="mahapps:HeaderedControlHelper.HeaderFontSize" Value="16" />
         <Setter Property="mahapps:HeaderedControlHelper.HeaderForeground" Value="AliceBlue" />

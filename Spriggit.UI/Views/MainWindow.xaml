@@ -17,15 +17,7 @@
                      MinWidth="250" MinHeight="250"
                      Title="Spriggit" Height="450" Width="325">
     <Grid>
-        <Border BorderThickness="0,1,0,0">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Offset="0" Color="{StaticResource OrangeYellow}" />
-                    <GradientStop Offset="0.15" Color="{StaticResource Orange}" />
-                    <GradientStop Offset="0.7" Color="{StaticResource DarkOrange}" />
-                </LinearGradientBrush>
-            </Border.BorderBrush>
-        </Border>
+        <Border BorderThickness="0,1,0,0" BorderBrush="{StaticResource SplitterGradient}" />
         <local:WindowView />
     </Grid>
     <mah:MetroWindow.RightWindowCommands>

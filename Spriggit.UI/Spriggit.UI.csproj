@@ -143,6 +143,16 @@
         <DefaultPackFolder>content</DefaultPackFolder>
         <BuildAction>Page</BuildAction>
       </Page>
+      <Page Update="Views\BottomSliverView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\NugetConfigErrorView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
     </ItemGroup>
 
     <ItemGroup>

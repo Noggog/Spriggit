@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="TooltipBlock" TargetType="TextBlock" >
@@ -96,5 +97,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <local:BottomSliverView Grid.Row="2" />
     </Grid>
 </wpf:NoggogUserControl>
